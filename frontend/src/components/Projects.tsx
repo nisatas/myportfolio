@@ -95,6 +95,11 @@ export default function Projects() {
   }
 
   const labels = t.projects.labels;
+  const showCount = t.projects.showCount ?? 4;
+  const displayedItems = t.projects.items.slice(0, showCount);
+  const hasMoreProjects = t.projects.items.length > showCount;
+  const moreProjectsUrl = t.projects.moreProjectsUrl ?? "https://github.com/nisatas?tab=repositories";
+  const moreProjectsLabel = t.projects.moreProjectsLabel ?? (lang === "en" ? "More Projects" : "Daha Fazla Proje");
 
   return (
     <section
@@ -120,7 +125,7 @@ export default function Projects() {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {t.projects.items.map((project: any, index: number) => (
+            {displayedItems.map((project: any, index: number) => (
               <div
                 key={index}
                 className={`card-minecraft p-4 sm:p-6 relative ${theme === "dark" ? "card-minecraft-dark" : "card-minecraft-light"}`}
@@ -244,13 +249,34 @@ export default function Projects() {
                 </div>
               </div>
             ))}
+
+            {hasMoreProjects && (
+              <div className="flex items-center justify-center md:col-span-2 lg:col-span-3">
+                <a
+                  href={moreProjectsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center gap-2 px-6 py-3 font-semibold ${theme === "dark" ? "bg-[#1e3a5f] text-[#93c5fd]" : "bg-[#dbeafe] text-[#1e40af]"}`}
+                  style={{
+                    border: `2px solid ${theme === "dark" ? "#3b82f6" : "#2563eb"}`,
+                    boxShadow: theme === "dark" ? "0 0 12px rgba(59, 130, 246, 0.25)" : "0 0 12px rgba(37, 99, 235, 0.2)",
+                    imageRendering: "pixelated",
+                    textShadow: "1px 1px 2px rgba(0,0,0,0.3)",
+                    transition: "all 0.2s",
+                  }}
+                >
+                  <PixelIcon name="folder" className="w-5 h-5" dark={theme === "dark"} />
+                  {moreProjectsLabel}
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {caseStudyIndex !== null && t.projects.items[caseStudyIndex] && (
+      {caseStudyIndex !== null && displayedItems[caseStudyIndex] && (
         <CaseStudyModal
-          project={t.projects.items[caseStudyIndex]}
+          project={displayedItems[caseStudyIndex]}
           labels={labels}
           theme={theme}
           lang={lang}
