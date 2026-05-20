@@ -12,6 +12,12 @@ export default function Hackathons() {
   const labelWhatWeDid = t.hackathons.labelWhatWeDid ?? (lang === "tr" ? "Neler yaptık?" : "What we did");
   const labelProjectLinks = t.hackathons.labelProjectLinks ?? (lang === "tr" ? "Proje linkleri" : "Project links");
 
+  const sortedItems = [...t.hackathons.items].sort((a: any, b: any) => {
+    const dateA = a.startDate ? new Date(a.startDate).getTime() : 0;
+    const dateB = b.startDate ? new Date(b.startDate).getTime() : 0;
+    return dateB - dateA;
+  });
+
   return (
     <section
       id="hackathons"
@@ -35,9 +41,9 @@ export default function Hackathons() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-            {t.hackathons.items.map((item: any, index: number) => (
+            {sortedItems.map((item: any) => (
               <div
-                key={index}
+                key={item.name}
                 className={`card-minecraft p-4 sm:p-6 relative ${theme === "dark" ? "card-minecraft-dark" : "card-minecraft-light"}`}
               >
                 {/* Hackathon ismi */}

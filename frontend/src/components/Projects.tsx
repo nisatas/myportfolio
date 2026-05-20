@@ -97,8 +97,7 @@ export default function Projects() {
   const labels = t.projects.labels;
   const showCount = t.projects.showCount ?? 4;
   const displayedItems = t.projects.items.slice(0, showCount);
-  const hasMoreProjects = t.projects.items.length > showCount;
-  const moreProjectsUrl = t.projects.moreProjectsUrl ?? "https://github.com/nisatas?tab=repositories";
+  const moreProjectsUrl = t.projects.moreProjectsUrl ?? "https://github.com/nisatas";
   const moreProjectsLabel = t.projects.moreProjectsLabel ?? (lang === "en" ? "More Projects" : "Daha Fazla Proje");
 
   return (
@@ -250,7 +249,7 @@ export default function Projects() {
               </div>
             ))}
 
-            {hasMoreProjects && (
+            {moreProjectsUrl && (
               <div className="flex items-center justify-center md:col-span-2 lg:col-span-3">
                 <a
                   href={moreProjectsUrl}

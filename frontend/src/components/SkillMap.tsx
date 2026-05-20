@@ -118,7 +118,20 @@ export default function SkillMap() {
         </p>
 
         {/* Tıklanınca açılan beceriler paneli — üstte, yüksek z-index, okunaklı */}
-        {activeId && (
+        {activeId && (() => {
+          const activeIsland = islands.find((island: { id: string }) => island.id === activeId);
+          const islandSkills = activeIsland?.skills;
+          const renderSkillLine = (label: string, items?: string[]) => {
+            if (!items?.length) return null;
+            return (
+              <p key={label}>
+                <span className={`font-semibold ${theme === "dark" ? "text-amber-300" : "text-amber-700"}`}>{label}:</span>{" "}
+                <span className={theme === "dark" ? "text-gray-200" : "text-gray-700"}>{items.join(", ")}</span>
+              </p>
+            );
+          };
+
+          return (
           <div
             className={`relative z-30 mb-6 rounded-lg border-2 p-4 sm:p-6 max-w-2xl mx-auto ${theme === "dark" ? "bg-[#1a1a1a] border-amber-700/60 text-amber-50" : "bg-white border-amber-400/60 text-gray-900"} shadow-xl`}
             style={{
@@ -126,9 +139,16 @@ export default function SkillMap() {
             }}
           >
             <div className="flex items-center justify-between mb-4">
-              <h3 className={`text-lg sm:text-xl font-bold ${theme === "dark" ? "text-amber-200" : "text-amber-800"}`}>
-                {t.skillMap.skillsTitle}
-              </h3>
+              <div>
+                <h3 className={`text-lg sm:text-xl font-bold ${theme === "dark" ? "text-amber-200" : "text-amber-800"}`}>
+                  {activeIsland?.label ?? t.skillMap.skillsTitle}
+                </h3>
+                {activeIsland?.ability && (
+                  <p className={`text-xs sm:text-sm mt-1 ${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
+                    {activeIsland.ability}
+                  </p>
+                )}
+              </div>
               <button
                 type="button"
                 onClick={() => setActiveId(null)}
@@ -138,22 +158,39 @@ export default function SkillMap() {
                 ✕
               </button>
             </div>
+            {activeIsland?.projects?.length ? (
+              <p className={`text-xs sm:text-sm mb-3 ${theme === "dark" ? "text-amber-200/90" : "text-amber-800/90"}`}>
+                <span className="font-semibold">{t.skillMap.projectsLabel}:</span>{" "}
+                {activeIsland.projects.join(" · ")}
+              </p>
+            ) : null}
             <div className="space-y-3 text-sm sm:text-base">
-              <p>
-                <span className={`font-semibold ${theme === "dark" ? "text-amber-300" : "text-amber-700"}`}>{t.skillMap.frontend}:</span>{" "}
-                <span className={theme === "dark" ? "text-gray-200" : "text-gray-700"}>{t.skillMap.frontendList}</span>
-              </p>
-              <p>
-                <span className={`font-semibold ${theme === "dark" ? "text-amber-300" : "text-amber-700"}`}>{t.skillMap.backend}:</span>{" "}
-                <span className={theme === "dark" ? "text-gray-200" : "text-gray-700"}>{t.skillMap.backendList}</span>
-              </p>
-              <p>
-                <span className={`font-semibold ${theme === "dark" ? "text-amber-300" : "text-amber-700"}`}>{t.skillMap.other}:</span>{" "}
-                <span className={theme === "dark" ? "text-gray-200" : "text-gray-700"}>{t.skillMap.otherList}</span>
-              </p>
+              {islandSkills ? (
+                <>
+                  {renderSkillLine(t.skillMap.frontend, islandSkills.frontend)}
+                  {renderSkillLine(t.skillMap.backend, islandSkills.backend)}
+                  {renderSkillLine(t.skillMap.other, islandSkills.other)}
+                </>
+              ) : (
+                <>
+                  <p>
+                    <span className={`font-semibold ${theme === "dark" ? "text-amber-300" : "text-amber-700"}`}>{t.skillMap.frontend}:</span>{" "}
+                    <span className={theme === "dark" ? "text-gray-200" : "text-gray-700"}>{t.skillMap.frontendList}</span>
+                  </p>
+                  <p>
+                    <span className={`font-semibold ${theme === "dark" ? "text-amber-300" : "text-amber-700"}`}>{t.skillMap.backend}:</span>{" "}
+                    <span className={theme === "dark" ? "text-gray-200" : "text-gray-700"}>{t.skillMap.backendList}</span>
+                  </p>
+                  <p>
+                    <span className={`font-semibold ${theme === "dark" ? "text-amber-300" : "text-amber-700"}`}>{t.skillMap.other}:</span>{" "}
+                    <span className={theme === "dark" ? "text-gray-200" : "text-gray-700"}>{t.skillMap.otherList}</span>
+                  </p>
+                </>
+              )}
             </div>
           </div>
-        )}
+          );
+        })()}
 
         {/* Harita alanı: su + adalar — kenarlara çerçeve */}
         <div
@@ -178,7 +215,15 @@ export default function SkillMap() {
           />
 
           {/* Adalar — yazıya göre boyut, sürüklenebilir */}
-          {islands.map((island: { id: string; label: string; ability: string; type: keyof typeof islandTypeStyles; libraries?: string }, i: number) => {
+          {islands.map((island: {
+            id: string;
+            label: string;
+            ability: string;
+            type: keyof typeof islandTypeStyles;
+            libraries?: string;
+            projects?: string[];
+            skills?: { frontend?: string[]; backend?: string[]; other?: string[] };
+          }, i: number) => {
             const pos = getPosition(i, island.id);
             const defaultDelay = defaultPositions[i % defaultPositions.length].delay;
             const typeStyles = islandTypeStyles[island.type] ?? islandTypeStyles.other;
