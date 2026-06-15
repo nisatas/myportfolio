@@ -1,0 +1,67 @@
+# 🚀 Nisa Ataş — Personal Portfolio
+
+Inspired by Minecraft and Terraria, this portfolio combines a game-inspired visual style with a structured full-stack architecture.
+
+This project was built not only as a design showcase, but as a fully separated and production-ready full-stack system.
+
+🔗 Live Demo: https://nisa-portfolio-6d7g.onrender.com/
+
+---
+
+## 🏗 Architecture Overview
+
+The system is structured as two independent layers:
+
+### 🔹 Frontend
+
+- React
+- Vite
+- TypeScript
+- TailwindCSS
+- Context API for global state management
+- Environment-based API configuration
+- Dark / Light mode with local persistence
+
+### 🔹 Backend
+
+- Node.js
+- Express
+- RESTful API architecture
+- Backend proxy for AI chatbot (API key security)
+- Environment-based configuration (.env)
+- CORS management
+
+The AI chatbot requests are routed through the backend to prevent exposing API keys on the client side.
+
+---
+
+## ✨ Key Features
+
+- Game-inspired UI design
+- Fully separated frontend & backend structure
+- Secure API proxy layer
+- Dark / Light theme persistence
+- Environment-based deployment configuration
+- Production deployment on Render
+
+---
+
+## 🛠 Tech Stack
+
+| Layer      | Technology |
+|------------|------------|
+| Frontend   | React + TypeScript |
+| Styling    | TailwindCSS |
+| Backend    | Node.js + Express |
+| Deployment | Render |
+| AI Proxy   | Backend-secured API integration |
+
+---
+
+## ⚙️ Local Development
+
+Clone the repository:
+
+```bash
+git clone https://github.com/nisatas/myportfolio.git
+cd myportfolio

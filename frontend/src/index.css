@@ -1,0 +1,242 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* -------------------------------
+   Global Base Ayarları
+--------------------------------*/
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased font-mono;
+  }
+
+  html.dark body {
+    @apply bg-zinc-950 text-white;
+  }
+
+  html:not(.dark) body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+/* -------------------------------
+   Custom Utilities (opsiyonel)
+--------------------------------*/
+@layer utilities {
+  /* Yazı imleci (typing cursor) */
+  .cursor {
+    animation: blink 1s step-end infinite;
+  }
+}
+
+/* -------------------------------
+   Animations
+--------------------------------*/
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Hero arka plan: yavaş zoom (video yoksa) */
+@keyframes hero-bg-zoom {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+}
+
+.hero-bg-animate {
+  animation: hero-bg-zoom 25s ease-in-out infinite;
+}
+
+/* Terraria / Minecraft tarzı oyun UI */
+.font-pixel {
+  font-family: "Press Start 2P", cursive;
+}
+
+/* Panel: kalın çerçeve, bevel (tahta/taş hissi) */
+.panel-game {
+  border-width: 4px;
+  border-radius: 4px;
+  image-rendering: pixelated;
+}
+.panel-game-dark {
+  border-color: #1a1a1a;
+  border-top-color: #4a4a4a;
+  border-left-color: #4a4a4a;
+  box-shadow: inset -2px -2px 0 #1a1a1a, inset 2px 2px 0 #4a4a4a;
+}
+.panel-game-light {
+  border-color: #a0a0a0;
+  border-top-color: #f0f0f0;
+  border-left-color: #f0f0f0;
+  box-shadow: inset -2px -2px 0 #a0a0a0, inset 2px 2px 0 #f0f0f0;
+}
+
+/* Buton: pixel font, kalın çerçeve, basılınca içeri çökme */
+.btn-game {
+  font-family: "Press Start 2P", cursive;
+  border-width: 3px;
+  border-radius: 4px;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  image-rendering: pixelated;
+}
+.btn-game:hover {
+  filter: brightness(1.1);
+}
+.btn-game:active {
+  transform: translate(2px, 2px);
+  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+.btn-game-dark {
+  border-color: #2a2a2a;
+  border-top-color: #5a5a5a;
+  border-left-color: #5a5a5a;
+  box-shadow: inset -1px -1px 0 #1a1a1a, inset 1px 1px 0 #5a5a5a;
+}
+.btn-game-light {
+  border-color: #8a8a8a;
+  border-top-color: #e8e8e8;
+  border-left-color: #e8e8e8;
+  box-shadow: inset -1px -1px 0 #6a6a6a, inset 1px 1px 0 #e8e8e8;
+}
+/* Yeşil aksan (Terraria ot / Minecraft çim) */
+.btn-game-green-dark {
+  border-color: #14532d;
+  border-top-color: #22c55e;
+  border-left-color: #22c55e;
+  box-shadow: inset -1px -1px 0 #14532d, inset 1px 1px 0 #22c55e;
+}
+.btn-game-green-light {
+  border-color: #86efac;
+  border-top-color: #dcfce7;
+  border-left-color: #dcfce7;
+  box-shadow: inset -1px -1px 0 #4ade80, inset 1px 1px 0 #dcfce7;
+}
+
+/* -------------------------------
+   Minecraft tarzı bölüm arka planları
+--------------------------------*/
+/* Bölüm üzerindeki overlay: şeffaf, sadece hafif blok ızgarası – allof.png arkada görünsün */
+.section-minecraft-overlay {
+  position: absolute;
+  inset: 0;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+.section-minecraft-overlay-dark {
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.12) 1px, transparent 1px),
+    linear-gradient(rgba(0,0,0,0.12) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+.section-minecraft-overlay-light {
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+/* Ana kutu: taş / cobblestone panel (envanter çerçevesi gibi) */
+.panel-minecraft {
+  border-width: 4px;
+  border-radius: 0;
+  image-rendering: pixelated;
+  position: relative;
+}
+.panel-minecraft > * {
+  position: relative;
+  z-index: 1;
+}
+.panel-minecraft::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px),
+    linear-gradient(rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 8px 8px;
+  border-radius: 0;
+}
+.panel-minecraft-dark {
+  background-color: #3d3d3d;
+  border-color: #2a2a2a;
+  border-top-color: #5c5c5c;
+  border-left-color: #5c5c5c;
+  box-shadow:
+    inset 2px 2px 0 rgba(92, 92, 92, 0.4),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(0,0,0,0.3);
+}
+.panel-minecraft-light {
+  background-color: #c4c4c4;
+  border-color: #8a8a8a;
+  border-top-color: #e8e8e8;
+  border-left-color: #e8e8e8;
+  box-shadow:
+    inset 2px 2px 0 rgba(255, 255, 255, 0.8),
+    inset -2px -2px 0 rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255,255,255,0.5);
+}
+
+/* İç kartlar: tek blok / slot hissi */
+.card-minecraft {
+  border-width: 3px;
+  border-radius: 0;
+  image-rendering: pixelated;
+  transition: box-shadow 0.2s, filter 0.2s;
+}
+.card-minecraft:hover {
+  filter: brightness(1.05);
+}
+.card-minecraft-dark {
+  background-color: #4a4a4a;
+  border-color: #2a2a2a;
+  border-top-color: #6a6a6a;
+  border-left-color: #6a6a6a;
+  box-shadow:
+    inset 1px 1px 0 rgba(106, 106, 106, 0.5),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.4);
+}
+.card-minecraft-light {
+  background-color: #d4d4d4;
+  border-color: #9a9a9a;
+  border-top-color: #f0f0f0;
+  border-left-color: #f0f0f0;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.9),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* Yetenek haritası adaları: hafif yukarı-aşağı hareket */
+@keyframes island-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.island-float {
+  animation: island-float 4s ease-in-out infinite;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.15), inset -1px -1px 0 rgba(0,0,0,0.2);
+}
+.shadow-island-frontend { box-shadow: 0 0 12px rgba(90, 140, 58, 0.3); }
+.shadow-island-frontend-light { box-shadow: 0 0 12px rgba(143, 188, 110, 0.4); }
+.shadow-island-backend { box-shadow: 0 0 12px rgba(106, 106, 106, 0.3); }
+.shadow-island-backend-light { box-shadow: 0 0 12px rgba(154, 154, 154, 0.4); }
+.shadow-island-tool { box-shadow: 0 0 12px rgba(139, 105, 20, 0.3); }
+.shadow-island-tool-light { box-shadow: 0 0 12px rgba(196, 155, 42, 0.4); }
+.shadow-island-other { box-shadow: 0 0 12px rgba(123, 92, 181, 0.3); }
+.shadow-island-other-light { box-shadow: 0 0 12px rgba(157, 126, 217, 0.4); }
+
+
